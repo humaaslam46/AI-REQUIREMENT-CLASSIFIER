@@ -11,7 +11,7 @@
 
 ## 🚀 Live Demo
 
-👉 **[Launch App](https://your-app-link.streamlit.app)** *(update after deployment)*
+👉 **[Launch App](https://ai-requirement-classifier-swwi26kx5v8ynreluhfkzc.streamlit.app/)** *(update after deployment)*
 
 ---
 
