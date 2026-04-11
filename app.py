@@ -23,10 +23,8 @@ html, body, [class*="css"] {
     color: #111827 !important;
 }
 
-/* White background */
 .stApp { background: #ffffff !important; }
 
-/* Hide Streamlit chrome */
 #MainMenu, footer, header { visibility: hidden; }
 .block-container { padding-top: 2.5rem; padding-bottom: 3rem; max-width: 700px; }
 
@@ -39,7 +37,6 @@ html, body, [class*="css"] {
     padding: 0 !important;
 }
 
-/* ── Badge ── */
 .badge {
     display: inline-block;
     font-family: 'DM Mono', monospace;
@@ -55,7 +52,6 @@ html, body, [class*="css"] {
     margin-bottom: 1.25rem;
 }
 
-/* ── Page title ── */
 .page-title {
     font-size: 36px;
     font-weight: 700;
@@ -65,7 +61,6 @@ html, body, [class*="css"] {
     text-align: center;
 }
 
-/* ── Subtitle ── */
 .page-sub {
     font-size: 15px;
     color: #374151;
@@ -75,7 +70,6 @@ html, body, [class*="css"] {
     margin-bottom: 2.5rem;
 }
 
-/* ── Section label ── */
 .section-label {
     font-family: 'DM Mono', monospace;
     font-size: 12px;
@@ -86,7 +80,6 @@ html, body, [class*="css"] {
     margin-bottom: .6rem;
 }
 
-/* ── Textarea ── */
 textarea {
     background: #f9fafb !important;
     border: 1.5px solid #d1d5db !important;
@@ -104,7 +97,6 @@ textarea:focus {
     box-shadow: 0 0 0 3px rgba(5,150,105,.12) !important;
 }
 
-/* ── Char count ── */
 .char-count {
     text-align: right;
     font-family: 'DM Mono', monospace;
@@ -114,7 +106,6 @@ textarea:focus {
     margin-bottom: 14px;
 }
 
-/* ── Buttons ── */
 .stButton > button {
     width: 100%;
     background: #059669 !important;
@@ -129,9 +120,7 @@ textarea:focus {
     transition: background .18s !important;
 }
 .stButton > button:hover { background: #047857 !important; }
-.stButton > button:active { background: #065f46 !important; }
 
-/* Clear button — secondary style */
 div[data-testid="column"]:last-child .stButton > button {
     background: #ffffff !important;
     color: #374151 !important;
@@ -139,10 +128,8 @@ div[data-testid="column"]:last-child .stButton > button {
 }
 div[data-testid="column"]:last-child .stButton > button:hover {
     background: #f3f4f6 !important;
-    border-color: #9ca3af !important;
 }
 
-/* ── Result card ── */
 .result-card {
     background: #f0fdf4;
     border: 1.5px solid #6ee7b7;
@@ -189,7 +176,6 @@ div[data-testid="column"]:last-child .stButton > button:hover {
     font-weight: 400;
 }
 
-/* ── Confidence bar ── */
 .conf-row {
     display: flex;
     justify-content: space-between;
@@ -206,7 +192,6 @@ div[data-testid="column"]:last-child .stButton > button:hover {
     overflow: hidden;
 }
 
-/* ── Category pills ── */
 .cats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -218,9 +203,7 @@ div[data-testid="column"]:last-child .stButton > button:hover {
     border: 1.5px solid #e5e7eb;
     border-radius: 10px;
     padding: .75rem 1rem;
-    transition: border-color .15s;
 }
-.cat-pill:hover { border-color: #6ee7b7; background: #f0fdf4; }
 .cat-pill-code {
     font-family: 'DM Mono', monospace;
     font-size: 13px;
@@ -234,7 +217,6 @@ div[data-testid="column"]:last-child .stButton > button:hover {
     color: #374151;
 }
 
-/* ── Error box ── */
 .err-box {
     background: #fef2f2;
     border: 1.5px solid #fca5a5;
@@ -246,10 +228,8 @@ div[data-testid="column"]:last-child .stButton > button:hover {
     margin-top: .5rem;
 }
 
-/* ── Divider line ── */
 .hr { height: 1px; background: #e5e7eb; margin: 2rem 0 1.5rem; }
 
-/* ── Footer ── */
 .footer {
     text-align: center;
     font-family: 'DM Mono', monospace;
@@ -258,21 +238,25 @@ div[data-testid="column"]:last-child .stButton > button:hover {
     letter-spacing: .06em;
     margin-top: 3rem;
 }
+
+/* Debug info box */
+.debug-box {
+    background: #fffbeb;
+    border: 1.5px solid #fcd34d;
+    border-radius: 10px;
+    padding: .75rem 1rem;
+    font-size: 13px;
+    font-family: 'DM Mono', monospace;
+    color: #92400e;
+    margin-top: .5rem;
+}
 </style>
 """, unsafe_allow_html=True)
 
-# ── Header ────────────────────────────────────────────────────────────────────
-st.markdown('<div style="text-align:center"><span class="badge">NLP Classifier · ML-powered</span></div>',
-            unsafe_allow_html=True)
-st.markdown('<div class="page-title">AI REQUIREMENT CLASSIFIER</div>', unsafe_allow_html=True)
-st.markdown(
-    '<div class="page-sub">Paste any software requirement below and instantly classify it into<br>'
-    '<strong style="color:#111827">Functional, Non-Functional, Performance,</strong> and more.</div>',
-    unsafe_allow_html=True,
-)
-
-# ── Explanations ──────────────────────────────────────────────────────────────
+# ── Explanations — covers all known label variants ────────────────────────────
+# Keys include both full codes AND single-letter variants the encoder may return
 EXPLANATIONS = {
+    # Standard codes
     "FR":  ("Functional Requirement",
             "Defines a specific behavior or function the system must support — describes what the system does."),
     "NFR": ("Non-Functional Requirement",
@@ -287,7 +271,97 @@ EXPLANATIONS = {
             "An explicit constraint or boundary on what the system will or can do."),
     "PO":  ("Policy Requirement",
             "Derived from regulatory, legal, or organizational rules that the system must adhere to."),
+    # Single-letter fallbacks (in case label encoder uses abbreviated labels)
+    "F":   ("Functional Requirement",
+            "Defines a specific behavior or function the system must support — describes what the system does."),
+    "N":   ("Non-Functional Requirement",
+            "Describes how the system performs a function — covers quality attributes like reliability, security, and maintainability."),
+    "P":   ("Performance Requirement",
+            "Specifies measurable performance criteria such as speed, throughput, or response time under defined conditions."),
+    "U":   ("Usability Requirement",
+            "Addresses the ease of use and accessibility of the system for its intended user base."),
+    "O":   ("Policy Requirement",
+            "Derived from regulatory, legal, or organizational rules that the system must adhere to."),
+    # Lowercase variants
+    "fr":  ("Functional Requirement",
+            "Defines a specific behavior or function the system must support — describes what the system does."),
+    "nfr": ("Non-Functional Requirement",
+            "Describes how the system performs a function — covers quality attributes like reliability, security, and maintainability."),
+    "pe":  ("Performance Requirement",
+            "Specifies measurable performance criteria such as speed, throughput, or response time under defined conditions."),
+    "us":  ("Usability Requirement",
+            "Addresses the ease of use and accessibility of the system for its intended user base."),
+    "a":   ("Assumption",
+            "A condition taken as true for planning purposes, without formal verification at this stage."),
+    "l":   ("Limitation",
+            "An explicit constraint or boundary on what the system will or can do."),
+    "po":  ("Policy Requirement",
+            "Derived from regulatory, legal, or organizational rules that the system must adhere to."),
 }
+
+# Display labels for the category grid (always show clean codes)
+DISPLAY_CATEGORIES = [
+    ("FR",  "Functional"),
+    ("NFR", "Non-Functional"),
+    ("PE",  "Performance"),
+    ("US",  "Usability"),
+    ("A",   "Assumption"),
+    ("L",   "Limitation"),
+    ("PO",  "Policy"),
+]
+
+def resolve_label(raw_label: str):
+    """
+    Robustly resolve whatever the label encoder returns into
+    (display_code, full_name, description).
+    Tries exact match first, then uppercase, then prefix matching.
+    """
+    # 1. Exact match
+    if raw_label in EXPLANATIONS:
+        name, desc = EXPLANATIONS[raw_label]
+        return raw_label.upper(), name, desc
+
+    # 2. Uppercase match
+    upper = raw_label.strip().upper()
+    if upper in EXPLANATIONS:
+        name, desc = EXPLANATIONS[upper]
+        return upper, name, desc
+
+    # 3. Prefix match — e.g. "Functional" → FR
+    keyword_map = {
+        "FUNC": ("FR",  "Functional Requirement",
+                 "Defines a specific behavior or function the system must support — describes what the system does."),
+        "NON":  ("NFR", "Non-Functional Requirement",
+                 "Describes how the system performs a function — covers quality attributes like reliability, security, and maintainability."),
+        "PERF": ("PE",  "Performance Requirement",
+                 "Specifies measurable performance criteria such as speed, throughput, or response time under defined conditions."),
+        "USAB": ("US",  "Usability Requirement",
+                 "Addresses the ease of use and accessibility of the system for its intended user base."),
+        "ASSU": ("A",   "Assumption",
+                 "A condition taken as true for planning purposes, without formal verification at this stage."),
+        "LIMI": ("L",   "Limitation",
+                 "An explicit constraint or boundary on what the system will or can do."),
+        "POLI": ("PO",  "Policy Requirement",
+                 "Derived from regulatory, legal, or organizational rules that the system must adhere to."),
+    }
+    for prefix, (code, name, desc) in keyword_map.items():
+        if upper.startswith(prefix):
+            return code, name, desc
+
+    # 4. Fallback — show raw label with generic message
+    return raw_label.upper(), f"Category: {raw_label}", \
+           "This requirement has been classified into a category. Check your label encoder for full category names."
+
+
+# ── Header ────────────────────────────────────────────────────────────────────
+st.markdown('<div style="text-align:center"><span class="badge">NLP Classifier · ML-powered</span></div>',
+            unsafe_allow_html=True)
+st.markdown('<div class="page-title">AI REQUIREMENT CLASSIFIER</div>', unsafe_allow_html=True)
+st.markdown(
+    '<div class="page-sub">Paste any software requirement below and instantly classify it into<br>'
+    '<strong style="color:#111827">Functional, Non-Functional, Performance,</strong> and more.</div>',
+    unsafe_allow_html=True,
+)
 
 # ── Input section ─────────────────────────────────────────────────────────────
 st.markdown('<div class="section-label">✏️ &nbsp;Enter Requirement</div>', unsafe_allow_html=True)
@@ -318,7 +392,9 @@ if predict_clicked:
     else:
         vec      = vectorizer.transform([user_input])
         raw_pred = model.predict(vec)[0]
-        label    = label_encoder.inverse_transform([raw_pred])[0]
+
+        # Get raw label string from encoder
+        raw_label = label_encoder.inverse_transform([raw_pred])[0]
 
         try:
             proba      = model.predict_proba(vec)[0]
@@ -326,20 +402,24 @@ if predict_clicked:
         except AttributeError:
             confidence = 82
 
-        st.session_state["last_result"] = {"label": label, "confidence": confidence}
+        st.session_state["last_result"] = {
+            "raw_label": str(raw_label),
+            "confidence": confidence,
+        }
 
 # ── Result display ────────────────────────────────────────────────────────────
 result = st.session_state.get("last_result")
 if result:
-    label      = result["label"]
+    raw_label  = result["raw_label"]
     confidence = result["confidence"]
-    full_name, description = EXPLANATIONS.get(label, (label, ""))
+
+    display_code, full_name, description = resolve_label(raw_label)
 
     st.markdown(f"""
     <div class="result-card">
         <div class="result-eyebrow">✅ &nbsp;Predicted Type</div>
         <div class="result-name">{full_name}</div>
-        <div class="result-code">Code: {label}</div>
+        <div class="result-code">Code: {display_code}</div>
         <div class="result-divider"></div>
         <div class="result-desc">📘 &nbsp;{description}</div>
         <div class="result-divider"></div>
@@ -353,17 +433,25 @@ if result:
     </div>
     """, unsafe_allow_html=True)
 
+    # Show raw label in a debug note so you can update EXPLANATIONS if needed
+    if display_code != raw_label.upper():
+        st.markdown(
+            f'<div class="debug-box">ℹ️ Raw label from encoder: <strong>"{raw_label}"</strong> — '
+            f'mapped to <strong>{display_code}</strong>. '
+            f'If this looks wrong, check what classes your label_encoder was trained on.</div>',
+            unsafe_allow_html=True,
+        )
+
 # ── Categories reference ──────────────────────────────────────────────────────
 st.markdown('<div class="hr"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">📂 &nbsp;All Categories</div>', unsafe_allow_html=True)
 
 cats_html = '<div class="cats-grid">'
-for code, (name, _) in EXPLANATIONS.items():
-    short = name.replace(" Requirement", "")
+for code, name in DISPLAY_CATEGORIES:
     cats_html += f"""
     <div class="cat-pill">
         <div class="cat-pill-code">{code}</div>
-        <div class="cat-pill-name">{short}</div>
+        <div class="cat-pill-name">{name}</div>
     </div>"""
 cats_html += '</div>'
 st.markdown(cats_html, unsafe_allow_html=True)
