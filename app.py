@@ -12,7 +12,6 @@ st.set_page_config(
     page_icon="⬡",
     layout="centered",
 )
-
 # ── Global CSS ────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
@@ -105,7 +104,6 @@ textarea:focus {
     margin-top: 5px;
     margin-bottom: 14px;
 }
-
 .stButton > button {
     width: 100%;
     background: #059669 !important;
